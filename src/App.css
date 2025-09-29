@@ -1,0 +1,402 @@
+/* Modern, beautiful design for AI Interview Assistant */
+
+:root {
+  --primary-color: #4361ee;
+  --secondary-color: #3f37c9;
+  --accent-color: #4cc9f0;
+  --success-color: #4ade80;
+  --warning-color: #facc15;
+  --error-color: #f87171;
+  --dark-color: #1e293b;
+  --light-color: #f8fafc;
+  --gray-color: #94a3b8;
+  --border-radius: 12px;
+  --box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+  color: var(--dark-color);
+  line-height: 1.6;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+.layout {
+  min-height: 100vh;
+  width: 100%;
+  background: transparent;
+}
+
+.header {
+  background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  padding: 1rem 0;
+  box-shadow: var(--box-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.logo {
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-align: center;
+  width: 100%;
+  padding: 0 2rem;
+}
+
+.logo h1 {
+  margin: 0;
+  font-size: 2rem;
+  background: linear-gradient(to right, #ffffff, #e0f7fa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.site-layout-content {
+  min-height: calc(100vh - 80px);
+  padding: 0;
+  background: transparent;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.ant-layout-content {
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 0 !important;
+  width: 100% !important;
+  flex: 1;
+}
+
+.ant-tabs {
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.ant-tabs-nav {
+  margin: 0 !important;
+  padding: 0 2rem !important;
+  background: linear-gradient(90deg, #f1f5f9 0%, #e2e8f0 100%);
+}
+
+.ant-tabs-tab {
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 1rem 1.5rem !important;
+  transition: var(--transition);
+}
+
+.ant-tabs-tab:hover {
+  color: var(--primary-color);
+}
+
+.ant-tabs-tab-active {
+  color: var(--primary-color) !important;
+}
+
+.ant-tabs-tab-btn:focus, 
+.ant-tabs-tab-btn:active {
+  color: var(--primary-color);
+}
+
+.ant-tabs-content-holder {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.ant-tabs-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  width: 100%;
+}
+
+.ant-tabs-tabpane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.ant-card {
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  margin-bottom: 1.5rem;
+  border: none;
+  transition: var(--transition);
+  width: 100%;
+}
+
+.ant-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+.ant-card-head {
+  background: linear-gradient(90deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
+  border: none !important;
+  padding: 0 1.5rem;
+}
+
+.ant-card-head-title {
+  font-weight: 700;
+  color: var(--dark-color);
+  font-size: 1.3rem;
+}
+
+.ant-steps {
+  width: 100%;
+}
+
+.ant-steps-item-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.ant-steps-item-process .ant-steps-item-icon {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.ant-steps-item-finish .ant-steps-item-icon {
+  background: var(--success-color);
+  border-color: var(--success-color);
+}
+
+.ant-steps-item-wait .ant-steps-item-icon {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.ant-progress {
+  margin: 1rem 0;
+}
+
+.ant-table {
+  margin-top: 1.5rem;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  width: 100%;
+}
+
+.ant-table-thead > tr > th {
+  background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: white;
+  font-weight: 600;
+  padding: 1rem;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background: #f1f5f9;
+}
+
+.ant-btn {
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  transition: var(--transition);
+  border: none;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.ant-btn-primary {
+  background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+}
+
+.ant-btn-primary:hover, 
+.ant-btn-primary:focus {
+  background: linear-gradient(90deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.ant-btn-default {
+  background: white;
+  color: var(--dark-color);
+  border: 1px solid #cbd5e1;
+}
+
+.ant-btn-default:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.ant-input {
+  border-radius: var(--border-radius);
+  padding: 0.8rem 1rem;
+  border: 1px solid #cbd5e1;
+  transition: var(--transition);
+  width: 100%;
+}
+
+.ant-input:focus, 
+.ant-input:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+}
+
+.ant-form-item {
+  width: 100%;
+}
+
+.ant-form-item-label > label {
+  font-weight: 600;
+  color: var(--dark-color);
+}
+
+.ant-modal-content {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.ant-modal-header {
+  background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: white;
+}
+
+.ant-modal-title {
+  color: white;
+  font-weight: 600;
+}
+
+.ant-modal-footer {
+  background: #f8fafc;
+}
+
+/* Typography enhancements */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  color: var(--dark-color);
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+h2:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-color) 100%);
+  border-radius: 2px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem 0;
+  }
+  
+  .logo {
+    padding: 0 1rem;
+  }
+  
+  .logo h1 {
+    font-size: 1.5rem;
+  }
+  
+  .site-layout-content {
+    padding: 0;
+  }
+  
+  .ant-layout-content {
+    padding: 0 !important;
+  }
+  
+  .ant-tabs-nav {
+    padding: 0 1rem !important;
+  }
+  
+  .ant-card-head {
+    padding: 0 1rem;
+  }
+  
+  .ant-steps-item-title {
+    font-size: 0.8rem;
+  }
+}
+
+/* Animation enhancements */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-color);
+}
+
+/* Ensure all components take full width */
+div {
+  width: 100%;
+}
+
+.ant-row {
+  width: 100%;
+}
+
+.ant-col {
+  width: 100%;
+}
