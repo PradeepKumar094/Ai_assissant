@@ -29,7 +29,7 @@ This is a React application that works as an AI-powered interview assistant with
 
 - AI dynamically generates questions for full stack (React/Node) role one by one
 - 6 questions total: 2 Easy → 2 Medium → 2 Hard
-- Questions are shown one at a time in the chat
+- Questions are shown one by one in the chat
 - Timers per question: Easy (20s), Medium (60s), Hard (120s)
 - When time runs out, the system automatically submits the answer and moves on
 - After the 6th question, the AI calculates a final score and creates a short summary
@@ -48,9 +48,36 @@ This is a React application that works as an AI-powered interview assistant with
 3. Run `npm run dev` to start the development server
 4. Open `http://localhost:5173` in your browser
 
-## Gemini API Integration
+## Perplexity API Integration
 
-The application includes full integration with Google's Gemini API for enhanced AI capabilities:
+The application now includes integration with Perplexity Pro for enhanced AI capabilities:
+
+1. **Get your Perplexity API key**:
+   - Go to [Perplexity AI](https://www.perplexity.ai/)
+   - Sign up for a Pro account
+   - Navigate to API section
+   - Create a new API key
+
+2. **Configure the API key**:
+   - Open the `.env` file in the project root
+   - Replace `your_perplexity_api_key_here` with your actual API key:
+   ```
+   VITE_PERPLEXITY_API_KEY=your_actual_api_key_here
+   ```
+
+3. **Restart the development server**:
+   - Stop the current server (Ctrl+C)
+   - Run `npm run dev` again
+
+With a valid API key, the application will use real AI capabilities for:
+- Dynamic question generation based on role and difficulty
+- Intelligent answer evaluation and scoring
+- Detailed candidate feedback and improvement suggestions
+- Final interview summary generation
+
+## Gemini API Integration (Alternative)
+
+If you prefer to use Google's Gemini API instead:
 
 1. **Get your Gemini API key**:
    - Go to [Google AI Studio](https://aistudio.google.com/)
@@ -69,12 +96,6 @@ The application includes full integration with Google's Gemini API for enhanced 
    - Stop the current server (Ctrl+C)
    - Run `npm run dev` again
 
-With a valid API key, the application will use real AI capabilities for:
-- Dynamic question generation based on role and difficulty
-- Intelligent answer evaluation and scoring
-- Detailed candidate feedback and improvement suggestions
-- Final interview summary generation
-
 ## Folder Structure
 
 ```
@@ -89,6 +110,7 @@ src/
 │   └── candidatesSlice.js
 ├── utils/
 │   ├── resumeParser.js
+│   ├── perplexityAPI.js
 │   └── geminiAPI.js
 ├── App.jsx
 ├── App.css

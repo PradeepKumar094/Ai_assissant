@@ -6,7 +6,7 @@ import {
   setCurrentCandidateId,
   setActiveTab
 } from '../store/candidatesSlice';
-import { Upload, Button, Form, Input, Card, Steps, Typography, Modal, Spin, Row, Col, Alert, Space } from 'antd';
+import { Upload, Button, Form, Input, Card, Steps, Typography, Modal, Spin, Row, Col, Alert, Space, message } from 'antd';
 import { UploadOutlined, UserOutlined, MailOutlined, PhoneOutlined, WarningOutlined, FilePdfOutlined, FileWordOutlined } from '@ant-design/icons';
 import ResumeParser from '../utils/resumeParser';
 import InterviewChat from './InterviewChat';
@@ -52,7 +52,14 @@ const IntervieweeTab = () => {
                    file.type === 'application/msword';
     
     if (!isPdf && !isDocx) {
-      // Show error message
+      message.error('Invalid file type. Please upload a PDF or DOCX file.');
+      return false;
+    }
+    
+    // Check file size (limit to 5MB)
+    const isLt5M = file.size / 1024 / 1024 < 5;
+    if (!isLt5M) {
+      message.error('File must be smaller than 5MB.');
       return false;
     }
     
@@ -62,12 +69,11 @@ const IntervieweeTab = () => {
   const handleUpload = async (file) => {
     // Validate file type
     if (!validateFile(file)) {
-      // In a real app, you would show an error message
-      console.error('Invalid file type. Please upload a PDF or DOCX file.');
       return false;
     }
     
     setLoading(true);
+    message.info('Processing your resume...');
     try {
       const data = await ResumeParser.parse(file);
       setParsedData(data);
@@ -93,35 +99,43 @@ const IntervieweeTab = () => {
         email: data.email || '',
         phone: data.phone || ''
       });
+      
+      message.success('Resume processed successfully!');
     } catch (error) {
       console.error('Error parsing resume:', error);
+      message.error(`Failed to parse resume: ${error.message || 'Unknown error occurred'}. Please try another file.`);
     } finally {
       setLoading(false);
     }
     return false;
   };
 
-  const onFinish = (values) => {
-    const candidateData = {
-      id: Date.now().toString(),
-      ...values,
-      resumeFile: resumeFile ? URL.createObjectURL(resumeFile) : null,
-      interviewStatus: 'not_started',
-      answers: [],
-      questions: [],
-      currentQuestionIndex: 0,
-      timeLeft: 0,
-      isPaused: false,
-      score: null,
-      summary: '',
-      createdAt: new Date().toISOString()
-    };
+  const onFinish = async (values) => {
+    try {
+      const candidateData = {
+        id: Date.now().toString(),
+        ...values,
+        resumeFile: resumeFile ? URL.createObjectURL(resumeFile) : null,
+        interviewStatus: 'not_started',
+        answers: [],
+        questions: [],
+        currentQuestionIndex: 0,
+        timeLeft: 0,
+        isPaused: false,
+        score: null,
+        summary: '',
+        createdAt: new Date().toISOString()
+      };
 
-    dispatch(addCandidate(candidateData));
-    dispatch(setCurrentCandidateId(candidateData.id));
-    
-    // Set submitted candidate to show InterviewChat immediately
-    setSubmittedCandidate(candidateData);
+      dispatch(addCandidate(candidateData));
+      dispatch(setCurrentCandidateId(candidateData.id));
+      
+      // Set submitted candidate to show InterviewChat immediately
+      setSubmittedCandidate(candidateData);
+    } catch (error) {
+      console.error('Error starting interview:', error);
+      message.error(`Failed to start interview: ${error.message || 'Unknown error occurred'}. Please try again.`);
+    }
   };
 
   const selectUnfinishedSession = (candidateId) => {
@@ -145,13 +159,13 @@ const IntervieweeTab = () => {
 
   // Show InterviewChat immediately after form submission
   if (submittedCandidate) {
-    return <InterviewChat candidate={submittedCandidate} />;
+    return <InterviewChat />;
   }
 
   if (currentCandidate && 
       (currentCandidate.interviewStatus === 'in_progress' || 
        currentCandidate.interviewStatus === 'completed')) {
-    return <InterviewChat candidate={currentCandidate} />;
+    return <InterviewChat />;
   }
 
   // Determine current step for the workflow
@@ -183,6 +197,8 @@ const IntervieweeTab = () => {
         title="Welcome Back!"
         open={showWelcomeBack}
         onCancel={() => setShowWelcomeBack(false)}
+        closable={false}
+        maskClosable={false}
         footer={[
           <Button key="new" onClick={startNewSession}>
             Start New Interview
@@ -197,8 +213,8 @@ const IntervieweeTab = () => {
               <Card 
                 key={candidate.id} 
                 style={{ marginBottom: '10px', cursor: 'pointer' }}
-                onClick={() => selectUnfinishedSession(candidate.id)}
                 hoverable
+                onClick={() => selectUnfinishedSession(candidate.id)}
               >
                 <Text strong>{candidate.name || 'Unnamed Candidate'}</Text>
                 <br />
@@ -409,10 +425,9 @@ const IntervieweeTab = () => {
 
           {/* Step 3: Start Interview (this will be handled by the redirect) */}
           <div style={{ 
-            display: getCurrentStep() === 2 ? 'block' : 'none',
+            display: getCurrentStep() === 2 ? 'flex' : 'none',
             flex: 1,
             textAlign: 'center',
-            display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center'

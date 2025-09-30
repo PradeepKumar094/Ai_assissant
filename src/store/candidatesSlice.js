@@ -23,8 +23,16 @@ export const candidatesSlice = createSlice({
       state.candidates[index] = {
         ...current,
         ...incoming,
-        answers: incoming.answers ? incoming.answers : current.answers,
-        questions: incoming.questions ? incoming.questions : current.questions,
+        // Properly merge arrays - use incoming values if provided, otherwise keep current
+        answers: incoming.answers !== undefined ? incoming.answers : current.answers,
+        questions: incoming.questions !== undefined ? incoming.questions : current.questions,
+        // Preserve other properties that might not be in the incoming update
+        currentQuestionIndex: incoming.currentQuestionIndex !== undefined ? incoming.currentQuestionIndex : current.currentQuestionIndex,
+        timeLeft: incoming.timeLeft !== undefined ? incoming.timeLeft : current.timeLeft,
+        isPaused: incoming.isPaused !== undefined ? incoming.isPaused : current.isPaused,
+        interviewStatus: incoming.interviewStatus !== undefined ? incoming.interviewStatus : current.interviewStatus,
+        score: incoming.score !== undefined ? incoming.score : current.score,
+        summary: incoming.summary !== undefined ? incoming.summary : current.summary,
       };
     },
     setCurrentCandidateId: (state, action) => {
@@ -47,6 +55,7 @@ export const candidatesSlice = createSlice({
         candidate.summary = '';
         candidate.timeLeft = null;
         candidate.isPaused = false;
+        candidate.currentQuestionIndex = 0;
       }
     }
   },

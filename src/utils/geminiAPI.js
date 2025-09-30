@@ -9,8 +9,8 @@ class GeminiAPI {
   }
   
   static get MODEL() {
-    // Allow overriding the model from env, default to flash-latest
-    return import.meta.env.VITE_GEMINI_MODEL || 'gemini-1.5-flash-latest';
+    // Allow overriding the model from env, default to gemini-pro
+    return import.meta.env.VITE_GEMINI_MODEL || 'gemini-pro';
   }
 
   static get API_URL() {

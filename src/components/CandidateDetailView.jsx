@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Card, Typography, List, Divider, Row, Col, Tag, Progress } from 'antd';
-import { ArrowLeftOutlined, UserOutlined, MailOutlined, PhoneOutlined, CheckCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, UserOutlined, MailOutlined, PhoneOutlined, CheckCircleOutlined, ClockCircleOutlined, DownloadOutlined } from '@ant-design/icons';
 import { setActiveTab, setCurrentCandidateId, setViewMode } from '../store/candidatesSlice';
 
 const { Title, Text } = Typography;
@@ -108,6 +108,22 @@ const CandidateDetailView = () => {
                 </Col>
               </Row>
               
+              {candidate.resumeFile && (
+                <Row style={{ marginTop: '1rem' }}>
+                  <Col span={24}>
+                    <Button 
+                      type="primary" 
+                      icon={<DownloadOutlined />}
+                      href={candidate.resumeFile}
+                      target="_blank"
+                      download={`${candidate.name.replace(/\s+/g, '_')}_resume`}
+                    >
+                      Download Resume
+                    </Button>
+                  </Col>
+                </Row>
+              )}
+              
               {candidate.score && (
                 <div style={{ marginTop: '1.5rem' }}>
                   <Text strong>Final Score:</Text>
@@ -178,7 +194,7 @@ const CandidateDetailView = () => {
                                 border: '1px solid #e2e8f0',
                                 marginTop: '0.5rem'
                               }}>
-                                {answer.answer}
+                                {answer.text}
                               </p>
                               {answer.score && (
                                 <div style={{ marginTop: '0.5rem' }}>

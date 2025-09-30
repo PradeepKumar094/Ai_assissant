@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentCandidateId, setActiveTab, setViewMode, resetInterview } from '../store/candidatesSlice';
-import { Table, Card, Button, Typography, Input, Space, Tag, Row, Col } from 'antd';
-import { SearchOutlined, EyeOutlined, RedoOutlined, UserOutlined, CheckCircleOutlined, ClockCircleOutlined, PlayCircleOutlined } from '@ant-design/icons';
+import { Table, Card, Button, Typography, Input, Space, Tag, Row, Col, message, Modal } from 'antd';
+import { SearchOutlined, EyeOutlined, RedoOutlined, UserOutlined, CheckCircleOutlined, ClockCircleOutlined, PlayCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
 const { Search } = Input;
+const { confirm } = Modal;
 
 const InterviewerTab = () => {
   const dispatch = useDispatch();
@@ -117,15 +118,39 @@ const InterviewerTab = () => {
   ];
   
   const viewCandidateDetails = (candidate) => {
-    dispatch(setCurrentCandidateId(candidate.id));
-    // Keep the interviewer tab selected while opening details view
-    dispatch(setActiveTab('interviewer'));
-    dispatch(setViewMode('details'));
+    try {
+      dispatch(setCurrentCandidateId(candidate.id));
+      // Keep the interviewer tab selected while opening details view
+      dispatch(setActiveTab('interviewer'));
+      dispatch(setViewMode('details'));
+    } catch (error) {
+      console.error('Error viewing candidate details:', error);
+      message.error(`Failed to view candidate details: ${error.message || 'Unknown error occurred'}`);
+    }
   };
   
   const restartInterview = (candidate) => {
-    dispatch(resetInterview(candidate.id));
-    dispatch(setViewMode('tabs'));
+    confirm({
+      title: 'Are you sure you want to restart this interview?',
+      icon: <ExclamationCircleOutlined />,
+      content: `This will reset all progress for ${candidate.name} and cannot be undone.`,
+      okText: 'Yes, Restart',
+      okType: 'danger',
+      cancelText: 'No, Cancel',
+      onOk() {
+        try {
+          dispatch(resetInterview(candidate.id));
+          dispatch(setViewMode('tabs'));
+          message.success('Interview restarted successfully');
+        } catch (error) {
+          console.error('Error restarting interview:', error);
+          message.error(`Failed to restart interview: ${error.message || 'Unknown error occurred'}`);
+        }
+      },
+      onCancel() {
+        console.log('Cancel restart interview');
+      },
+    });
   };
   
   return (
